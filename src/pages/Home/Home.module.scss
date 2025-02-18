@@ -1,0 +1,17 @@
+@use "../../styles/abstracts/variables" as *;
+.home {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  h1 {
+    color: $dark-grey;
+    font-size: 22px;
+    font-weight: 600;
+  }
+
+  .cocktail-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: start;
+  }
+}

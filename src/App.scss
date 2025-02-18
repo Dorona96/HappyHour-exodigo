@@ -1,0 +1,16 @@
+@use "./styles/abstracts/variables" as *;
+
+.App {
+  text-align: center;
+  overflow: scroll;
+}
+
+body,
+html,
+#root,
+.App {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background-color: $background-mint;
+}

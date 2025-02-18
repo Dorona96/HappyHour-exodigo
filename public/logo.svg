@@ -1,0 +1,33 @@
+<svg
+  version="1.1"
+  id="Layer_1"
+  xmlns="http://www.w3.org/2000/svg"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  viewBox="0 0 64 64"
+  xml:space="preserve"
+  width="64px"
+  height="64px"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <!-- Cocktail Glass -->
+  <path d="M16 8h32l-16 24-16-24z"></path>
+  <line x1="32" y1="32" x2="32" y2="56"></line>
+  <line x1="24" y1="56" x2="40" y2="56"></line>
+  
+  <!-- Liquid inside the glass -->
+  <path d="M20 8l12 18 12-18"></path>
+  
+  <!-- Straw -->
+  <line x1="40" y1="8" x2="50" y2="2"></line>
+
+  <!-- Lemon slice -->
+  <circle cx="52" cy="12" r="6"></circle>
+  <line x1="48" y1="12" x2="56" y2="12"></line>
+  <line x1="52" y1="6" x2="52" y2="18"></line>
+  <line x1="48" y1="8" x2="56" y2="16"></line>
+  <line x1="48" y1="16" x2="56" y2="8"></line>
+</svg>

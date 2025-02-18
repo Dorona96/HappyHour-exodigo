@@ -1,0 +1,55 @@
+$screen-breakpoints: (
+  "xs": 0px,
+  "s": 480px,
+  "m": 768px,
+  "l": 1024px,
+);
+
+@mixin mobile {
+    @media (max-width: map-get($screen-breakpoints,"s")) and (orientation: portrait) {
+      @content;
+    }
+  }
+  
+  @mixin tablet {
+    @media (min-width: map-get($screen-breakpoints,"m")) and (max-width: map-get($screen-breakpoints,"l")) {
+      @content;
+    }
+  }
+  
+  @mixin landscape {
+    @media (orientation: landscape) {
+      @content;
+    }
+  }
+  
+  @mixin desktop {
+    @media (min-width: map-get($screen-breakpoints, "m")) {
+      @content;
+    }
+  }
+  
+  @mixin xs-screen {
+    @media (max-width: map-get($screen-breakpoints, "xs")) {
+      @content;
+    }
+  }
+  
+  @mixin s-screen {
+    @media (min-width: map-get($screen-breakpoints, "s")) and (max-width: calc(map-get($screen-breakpoints, "m") - 1px)) {
+      @content;
+    }
+  }
+  
+  @mixin m-screen {
+    @media (min-width: map-get($screen-breakpoints, "m")) and (max-width: calc(map-get($screen-breakpoints, "l") - 1px)) {
+      @content;
+    }
+  }
+  
+  @mixin l-screen {
+    @media (min-width: map-get($screen-breakpoints, "l")) {
+      @content;
+    }
+  }
+  

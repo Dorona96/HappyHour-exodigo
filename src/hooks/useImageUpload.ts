@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const useImageUpload = () => {
+export const useImageUpload = () => {
   const [image, setImage] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
 
@@ -15,8 +15,11 @@ const useImageUpload = () => {
       setPreview(newPreview);
     }
   };
+  const resetImage = () => {
+    if (preview) URL.revokeObjectURL(preview);
+    setImage(null);
+    setPreview(null);
+  };
 
-  return { image, preview, handleImageChange };
+  return { image, preview, handleImageChange , setImage, setPreview, resetImage};
 };
-
-export default useImageUpload;

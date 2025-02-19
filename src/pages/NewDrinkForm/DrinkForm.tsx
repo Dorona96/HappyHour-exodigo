@@ -1,0 +1,146 @@
+import React, { useReducer, useCallback, useMemo } from "react";
+import { Cocktail } from "types/cocktail";
+import styles from "./DrinkForm.module.scss";
+import { useImageUpload } from "hooks/useImageUpload";
+import { saveDrinkToLocalStorage } from "utils/storage";
+import { imageToBase64 } from "utils/imageUtils";
+
+
+type FormAction =
+  | { type: "SET_NAME"; payload: string }
+  | { type: "SET_INGREDIENT"; payload: { index: number; value: string } }
+  | { type: "ADD_INGREDIENT" }
+  | { type: "REMOVE_INGREDIENT"; payload: number }
+  | { type: "SET_INSTRUCTIONS"; payload: string }
+  | { type: "RESET_FORM" };
+
+
+const initialState = {
+  name: "",
+  ingredients: [""],
+  instructions: "",
+};
+
+const formReducer = (state: typeof initialState, action: FormAction) => {
+  switch (action.type) {
+    case "SET_NAME":
+      return { ...state, name: action.payload };
+    case "SET_INGREDIENT":
+      return {
+        ...state,
+        ingredients: state.ingredients.map((ing, index) =>
+          index === action.payload.index ? action.payload.value : ing
+        ),
+      };
+    case "ADD_INGREDIENT":
+      return { ...state, ingredients: [...state.ingredients, ""] };
+    case "REMOVE_INGREDIENT":
+      return {
+        ...state,
+        ingredients: state.ingredients.filter((_, index) => index !== action.payload),
+      };
+    case "SET_INSTRUCTIONS":
+      return { ...state, instructions: action.payload };
+    case "RESET_FORM":
+      return initialState;
+    default:
+      return state;
+  }
+};
+
+const DrinkForm: React.FC = () => {
+  const [state, dispatch] = useReducer(formReducer, initialState);
+  const { image, preview, handleImageChange, resetImage } = useImageUpload();
+  const [error, setError] = React.useState<string | null>(null);
+
+  const validateForm = useCallback(() => {
+    if (!state.name.trim() || state.ingredients.some((i) => !i.trim()) || !state.instructions.trim() || !image) {
+      return "Please fill in all required fields and upload an image.";
+    }
+    return null;
+  }, [state, image]);
+
+  const handleSaveDrink = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const validationError = validateForm();
+    if (validationError) {
+      setError(validationError);
+      return;
+    }
+
+    const base64Image = image ? await imageToBase64(image) : "";
+
+    const newDrink: Cocktail = {
+      idDrink: Date.now().toString(),
+      strDrink: state.name,
+      strInstructions: state.instructions,
+      strDrinkThumb: base64Image,
+      strIngredients: state.ingredients,
+    };
+
+    saveDrinkToLocalStorage(newDrink);
+    dispatch({ type: "RESET_FORM" });
+    resetImage();
+    setError(null);
+  };
+
+  return (
+    <form className={styles.form} onSubmit={handleSaveDrink}>
+      <h2>Add a New Cocktail</h2>
+
+      {error && <span className={styles.error} aria-live="polite">{error}</span>}
+
+      <label htmlFor="name">Drink Name</label>
+      <input
+        id="name"
+        placeholder="Enter cocktail name"
+        value={state.name}
+        onChange={(e) => dispatch({ type: "SET_NAME", payload: e.target.value })}
+      />
+
+      <label>Ingredients</label>
+      {state.ingredients.map((ingredient, index) => (
+        <div key={index} className={styles.ingredientField}>
+          <input
+            type="text"
+            value={ingredient}
+            placeholder="Ingredient"
+            onChange={(e) => dispatch({ type: "SET_INGREDIENT", payload: { index, value: e.target.value } })}
+          />
+          {state.ingredients.length > 1 && (
+            <button type="button" className={styles.deleteBtn} onClick={() => dispatch({ type: "REMOVE_INGREDIENT", payload: index })}>
+              ✖
+            </button>
+          )}
+        </div>
+      ))}
+      <button type="button" className={styles.addBtn} onClick={() => dispatch({ type: "ADD_INGREDIENT" })}>
+        + Add Ingredient
+      </button>
+
+      <label htmlFor="instructions">Instructions</label>
+      <textarea
+        id="instructions"
+        placeholder="How to prepare the cocktail"
+        value={state.instructions}
+        onChange={(e) => dispatch({ type: "SET_INSTRUCTIONS", payload: e.target.value })}
+      />
+
+      <label htmlFor="imageUpload">Upload Image</label>
+      <input id="imageUpload" type="file" accept="image/*" onChange={handleImageChange} />
+
+      {preview && <img src={preview} alt="Cocktail Preview" className={styles.imagePreview} />}
+
+      <div className={styles.btnsAction}>
+        <button type="reset" className={styles.resetBtn} onClick={() => dispatch({ type: "RESET_FORM" })}>
+          Reset
+        </button>
+        <button type="submit" className={styles.submitBtn}>
+          Save Drink
+        </button>
+      </div>
+    </form>
+  );
+};
+
+export default DrinkForm;

@@ -2,7 +2,7 @@ import React from "react";
 import "./App.scss";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import Home from "./pages/Home/Home";
-import NewDrinkForm from "./pages/NewDrinkForm/NewDrinkForm";
+import NewDrinkForm from "./pages/NewDrinkForm/DrinkForm";
 import Navbar from "./components/Navbar/Navbar";
 import "./styles/global.scss";
 import CocktailDetails from "./pages/CocktailDetails/CocktailDetails";

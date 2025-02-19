@@ -1,7 +1,7 @@
 import React, { Fragment, useCallback, useEffect, useState } from "react";
 import styles from "./CocktailDetails.module.scss";
 import { useNavigate, useParams } from "react-router-dom";
-import { fetchCocktailById } from "../../services/api";
+import { fetchCocktailById } from "services/api";
 import { Cocktail } from "../../types/cocktail";
 
 const CocktailDetails: React.FC = () => {

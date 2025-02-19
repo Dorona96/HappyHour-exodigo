@@ -1,5 +1,6 @@
-@use "../../styles/abstracts/mixins" as *;
-@use "../../styles/abstracts/variables" as *;
+@use "styles/abstracts/mixins" as *;
+@use "styles/abstracts/variables" as *;
+@use "styles/abstracts/functions" as *;
 
 .cocktailCard {
   box-sizing: border-box;
@@ -21,10 +22,11 @@
 
   h3 {
     position: relative;
-    bottom: 0;
     color: $teal;
     font-weight: 500;
+    font-size: pxToRem(16px);
     bottom: 49px;
+    text-shadow: 2px 2px 4px black;
     margin: 0;
     padding: 10px;
     transition: color 0.5s ease-in-out, backdrop-filter 0.5s;

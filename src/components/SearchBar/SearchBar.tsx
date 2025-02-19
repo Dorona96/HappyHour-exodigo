@@ -10,7 +10,11 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
   const debouncedSearchTerm = useDebounce<string>(searchTerm, 500);
 
   useEffect(() => {
-    onSearch(debouncedSearchTerm);
+    if (debouncedSearchTerm.trim() !== "") {
+      onSearch(debouncedSearchTerm);
+    } else {
+      onSearch("");
+    }
   }, [debouncedSearchTerm, onSearch]);
 
   return (

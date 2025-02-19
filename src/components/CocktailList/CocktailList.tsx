@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Cocktail } from "../../types/cocktail";
+import React from "react";
+import { Cocktail } from "types/cocktail";
 import CocktailCard from "../CocktailCard/CocktailCard";
 import styles from "./CocktailList.module.scss";
 import { Link } from "react-router-dom";

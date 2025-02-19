@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Cocktail } from "../types/cocktail";
+import { Cocktail } from "types/cocktail";
 
 // const BASE_URL = "https://www.thecocktaildb.com/api/json/v1/1";
 const BASE_URL = "http://localhost:5000/api";

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Cocktail } from "../../types/cocktail";
+import { Cocktail } from "types/cocktail";
 import styles from "./NewDrinkForm.module.scss";
 
 const NewDrinkForm: React.FC = () => {
@@ -25,30 +25,7 @@ const NewDrinkForm: React.FC = () => {
     setIngredients(updatedIngredients);
   };
 
-  const handleSaveDrink = (e: React.FormEvent) => {
-    e.preventDefault();
 
-    if (!name.trim() || ingredients.some((i) => !i.trim()) || !instructions.trim() || !preview) {
-      setError("Please fill in all required fields and upload an image.");
-      return;
-    }
-
-    const newDrink: Cocktail = {
-      idDrink: Date.now().toString(),
-      strDrink: name,
-      strInstructions: instructions,
-      strDrinkThumb: preview,
-      strIngredients: ingredients,
-    };
-
-    const storedDrinks = localStorage.getItem("customDrinks");
-    const newDrinks: Cocktail[] = storedDrinks ? JSON.parse(storedDrinks) : [];
-
-    newDrinks.push(newDrink);
-    localStorage.setItem("newDrinks", JSON.stringify(newDrinks));
-
-    resetFormFields();
-  };
 
   const resetFormFields = () => {
     setName("");
@@ -63,9 +40,48 @@ const NewDrinkForm: React.FC = () => {
     const file = e.target.files?.[0];
 
     if (file) {
+      if(preview){
+        URL.revokeObjectURL(preview);
+      }
+      const newPreview = URL.createObjectURL(file);
       setImage(file);
-      setPreview(URL.createObjectURL(file));
+      setPreview(newPreview);
     }
+  };
+
+  const convertToBase64 = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = (error) => reject(error);
+    });
+  };
+
+  const handleSaveDrink = async(e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!name.trim() || ingredients.some((i) => !i.trim()) || !instructions.trim() || !preview) {
+      setError("Please fill in all required fields and upload an image.");
+      return;
+    }
+    const base64Image =image? await convertToBase64(image):"";
+
+    const newDrink: Cocktail = {
+      idDrink: Date.now().toString(),
+      strDrink: name,
+      strInstructions: instructions,
+      strDrinkThumb: base64Image,
+      strIngredients: ingredients,
+    };
+
+    const storedDrinks = localStorage.getItem("customDrinks");
+    const newDrinks: Cocktail[] = storedDrinks ? JSON.parse(storedDrinks) : [];
+
+    newDrinks.push(newDrink);
+    localStorage.setItem("newDrinks", JSON.stringify(newDrinks));
+
+    resetFormFields();
   };
 
   return (

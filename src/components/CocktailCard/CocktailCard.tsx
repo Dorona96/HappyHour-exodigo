@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import { Cocktail } from "../../types/cocktail";
+import { Cocktail } from "types/cocktail";
 import { Link } from "react-router-dom";
 import styles from "./CocktailCard.module.scss";
 interface CocktailCardProps {

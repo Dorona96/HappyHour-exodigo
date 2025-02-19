@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import "./Home.module.scss";
-import { useCocktails } from "../../hooks/useCocktails";
+import { useCocktails } from "hooks/useCocktails";
 import Pagination from "../../components/Pagination/Pagination";
 import CocktailList from "../../components/CocktailList/CocktailList";
 import SearchBar from "../../components/SearchBar/SearchBar";

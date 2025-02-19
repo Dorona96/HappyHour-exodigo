@@ -1,18 +1,13 @@
-$screen-breakpoints: (
-  "xs": 0px,
-  "s": 480px,
-  "m": 768px,
-  "l": 1024px,
-);
+@use "variables" as vars;
 
 @mixin mobile {
-    @media (max-width: map-get($screen-breakpoints,"s")) and (orientation: portrait) {
+    @media (max-width: map-get(vars.$screen-breakpoints,"s")) and (orientation: portrait) {
       @content;
     }
   }
   
   @mixin tablet {
-    @media (min-width: map-get($screen-breakpoints,"m")) and (max-width: map-get($screen-breakpoints,"l")) {
+    @media (min-width: map-get(vars.$screen-breakpoints,"m")) and (max-width: map-get(vars.$screen-breakpoints,"l")) {
       @content;
     }
   }
@@ -24,31 +19,31 @@ $screen-breakpoints: (
   }
   
   @mixin desktop {
-    @media (min-width: map-get($screen-breakpoints, "m")) {
+    @media (min-width: map-get(vars.$screen-breakpoints, "m")) {
       @content;
     }
   }
   
   @mixin xs-screen {
-    @media (max-width: map-get($screen-breakpoints, "xs")) {
+    @media (max-width: map-get(vars.$screen-breakpoints, "xs")) {
       @content;
     }
   }
   
   @mixin s-screen {
-    @media (min-width: map-get($screen-breakpoints, "s")) and (max-width: calc(map-get($screen-breakpoints, "m") - 1px)) {
+    @media (min-width: map-get(vars.$screen-breakpoints, "s")) and (max-width: calc(map-get(vars.$screen-breakpoints, "m") - 1px)) {
       @content;
     }
   }
   
   @mixin m-screen {
-    @media (min-width: map-get($screen-breakpoints, "m")) and (max-width: calc(map-get($screen-breakpoints, "l") - 1px)) {
+    @media (min-width: map-get(vars.$screen-breakpoints, "m")) and (max-width: calc(map-get(vars.$screen-breakpoints, "l") - 1px)) {
       @content;
     }
   }
   
   @mixin l-screen {
-    @media (min-width: map-get($screen-breakpoints, "l")) {
+    @media (min-width: map-get(vars.$screen-breakpoints, "l")) {
       @content;
     }
   }

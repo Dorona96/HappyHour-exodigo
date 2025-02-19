@@ -6,15 +6,16 @@ nav {
   top: 0;
   justify-content: center;
   position: sticky;
-  backdrop-filter: blur(8px);
-  padding: 10px;
+  backdrop-filter: blur(30px);
+  padding: 24px;
+  z-index: 100;
   box-sizing: border-box;
 }
 .navbar {
   display: flex;
   justify-content: space-between;
   width: 100%;
-  max-width: 1000px;
+  max-width: 1500px;
 
   span {
     color: $berry;

@@ -1,13 +1,13 @@
 import axios from "axios";
 import { Cocktail } from "../types/cocktail";
 
-const BASE_URL = "https://www.thecocktaildb.com/api/json/v1/1";
-// const BASE_URL = "http://localhost:5000/api";
+// const BASE_URL = "https://www.thecocktaildb.com/api/json/v1/1";
+const BASE_URL = "http://localhost:5000/api";
 
 export const fetchCocktailsByLetter = async (letter: string): Promise<Cocktail[]> => {
   try {
     const response = await axios.get<{ drinks: Cocktail[] }>(
-      `${BASE_URL}/search.php?s=${letter}`
+      `${BASE_URL}/cocktails?s=${letter}`
     );
 
     return response.data.drinks || [];
@@ -35,7 +35,7 @@ export const fetchCocktailById = async (
 ): Promise<Cocktail | null> => {
   try {
     const response = await axios.get<{ drinks: Cocktail[] }>(
-      `${BASE_URL}/lookup.php?i=${id}`
+      `${BASE_URL}/cocktail?i=${id}`
     );
     return response.data.drinks ? response.data.drinks[0] : null;
   } catch (error) {
@@ -47,7 +47,7 @@ export const fetchCocktailById = async (
 export const searchCocktails = async (query: string): Promise<Cocktail[]> => {
   try {
     const response = await axios.get<{ drinks: Cocktail[] }>(
-      `${BASE_URL}/search.php?s=${query}`
+      `${BASE_URL}/cocktails?s=${query}`
     );
     return response.data.drinks || [];
   } catch (error) {
@@ -71,7 +71,7 @@ export const saveNewDrink = async (
 
     customDrinks.push(newDrinkData);
 
-    localStorage.setItem("custom drinks", JSON.stringify(customDrinks));
+    localStorage.setItem("customDrinks", JSON.stringify(customDrinks));
     await new Promise((resolve) => setTimeout(resolve, 500));
     return newDrinkData;
   } catch (error) {

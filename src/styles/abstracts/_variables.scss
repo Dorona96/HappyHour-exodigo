@@ -1,5 +1,6 @@
 //global color pallate
-$teal: #009688;
+$teal: #79fff2;
+$blue:rgb(42, 100, 224);
 $lime: #cddc39;
 $berry: #e91e63;
 $dark-grey: #333333;
@@ -7,3 +8,11 @@ $light-grey: #acacac;
 $off-white: #fafafa;
 $background-mint: #e0f7fa;
 
+$screen-breakpoints: (
+  "xs": 0px,
+  "s": 480px,
+  "m": 768px,
+  "l": 1024px,
+);
+
+$base-font-size: 16;

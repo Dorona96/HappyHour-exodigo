@@ -1,11 +1,14 @@
 @use "../../styles/abstracts/variables" as *;
+@use "../../styles/abstracts/functions" as *;
+
+
 .home {
   display: flex;
   flex-direction: column;
   align-items: center;
   h1 {
     color: $dark-grey;
-    font-size: 22px;
+    font-size: pxToRem(22px);
     font-weight: 600;
   }
 

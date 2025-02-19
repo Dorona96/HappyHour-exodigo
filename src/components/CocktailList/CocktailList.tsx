@@ -12,8 +12,8 @@ const CocktailList: React.FC<CocktailListProps> = ({ cocktails }) => {
   
   return (
     <div className={styles.cocktailList}>
-      {cocktails.map((cocktail) => {
-        return <Link key={cocktail.idDrink} to={`/cocktail/${cocktail.idDrink}`}><CocktailCard key={cocktail.idDrink} cocktail={cocktail} /></Link>;
+      {cocktails.map((cocktail, index) => {
+        return <Link key={index} to={`/cocktail/${cocktail.idDrink}`}><CocktailCard key={cocktail.idDrink} cocktail={cocktail} /></Link>;
       })}
     </div>
   );

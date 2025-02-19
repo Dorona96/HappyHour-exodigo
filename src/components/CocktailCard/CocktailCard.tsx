@@ -9,7 +9,7 @@ interface CocktailCardProps {
 const CocktailCard: React.FC<CocktailCardProps> = ({ cocktail }) => {
   return (
     <div className={styles.cocktailCard}>
-      <img src={cocktail.strDrinkThumb} />
+      <img src={cocktail.strDrinkThumb||undefined} />
       <h3>{cocktail.strDrink}</h3>
     </div>
   );

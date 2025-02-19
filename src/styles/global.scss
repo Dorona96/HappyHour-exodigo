@@ -1,2 +1,17 @@
 @use "abstracts/variables" as vars;
 @use "abstracts/mixins" as mixins;
+@use "abstracts/functions" as func;
+body,
+html,
+#root {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background-color: vars.$background-mint;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  display: contents;
+}

@@ -1,0 +1,12 @@
+@use "variables" as vars;
+
+@function strip-units($value) {
+  @return $value / ($value * 0 + 1);
+}
+@function pxToRem($px-value) {
+  @if unit($px-value) == "px" {
+    @return #{strip-units($px-value) / strip-units(vars.$base-font-size)}rem;
+  } @else {
+    @error "pxToRem() expects a pixel value (e.g., 22px), but received #{$px-value}.";
+  }
+}

@@ -1,18 +1,17 @@
 import React, { Fragment } from "react";
 import "./Home.module.scss";
 import { useCocktails } from "hooks/useCocktails";
-import Pagination from "../../components/Pagination/Pagination";
-import CocktailList from "../../components/CocktailList/CocktailList";
-import SearchBar from "../../components/SearchBar/SearchBar";
+import Pagination from "components/Pagination/Pagination";
+import CocktailList from "components/CocktailList/CocktailList";
 import styles from "./Home.module.scss";
+import SearchBar from "components/SearchBar/SearchBar";
 
-const Home: React.FC = () => {
-  const { cocktails, totalPages, currentPage, loading, error, handleSearch, setCurrentPage } = useCocktails();
+const Home: React.FC  = () => {
+  const { cocktails, totalPages, currentPage, loading, error, setCurrentPage, handleSearch } = useCocktails();
 
   return (
-    <div className={styles.home}>
-      <SearchBar onSearch={handleSearch} />
-      <h1>Welcome to Exodigo Happy Hour!</h1>
+    <div className={styles.home} >
+      <SearchBar onSearch={handleSearch}/>
       {loading && <p>Loading...</p>}
       {!loading && !error && (
         <Fragment>

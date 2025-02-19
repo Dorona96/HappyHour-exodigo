@@ -1,4 +1,28 @@
-.searchbar{
-    position: sticky;
-    top: 48px;  
+@use "styles/abstracts/variables" as *;
+.searchbar {
+  display: flex;
+  width: 100%;
+  position: sticky;
+  top: 55px;
+  left: 0;
+  z-index: 200;
+  padding: 10px;
+  background-color: $lime;
+  box-sizing: border-box;
+  margin-bottom: 10px;
+  max-width: 1500px;
+  gap: 8px;
+  input {
+      background-color: $lime;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    color: darken($lime, 50%);
+    outline: none;
+    border: none;
+  }
+
+  img {
+    width: 20px;
+    height: 20px;
+  }
 }

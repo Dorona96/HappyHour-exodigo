@@ -1,0 +1,92 @@
+@use "styles/abstracts/variables" as *;
+@use "styles/abstracts/mixins" as *;
+@use "styles/abstracts/functions" as *;
+
+.cocktailDetails {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  display: flex;
+  width: 85vw;
+  background: #fff;
+  border-radius: 10px;
+  text-align: center;
+  align-items: center;
+  flex-direction: column;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  .description{
+    max-height: 500px;
+    overflow: scroll;
+    scrollbar-width: none;
+  }
+  h1 {
+    text-transform: capitalize;
+    font-size: pxToRem(24px);
+    margin: 5px 0;
+  }
+
+  img {
+    width: 100%;
+    max-width: 300px;
+    border-radius: 10px;
+    margin: 10px 0;
+  }
+
+  h3 {
+    margin: 5px 0;
+    font-size: pxToRem(18px);
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    li {
+      background: #f8f9fa;
+      padding: 8px;
+      margin: 5px 0;
+      border-radius: 5px;
+    }
+  }
+
+  span {
+    display: block;
+    margin-top: 10px;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  .backBtn {
+    color: $dark-grey;
+    align-self: flex-end;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    width: 38px;
+    height: 38px;
+    text-align: center;
+    cursor: pointer;
+    font-size: 16px;
+    transition: v 0.3s ease;
+
+    &:hover {
+      background: $lime;
+    }
+  }
+
+  @include mobile {
+    max-height: 80vh;
+    img {
+      max-width: 200px;
+    }
+
+    h1 {
+      font-size: pxToRem(22px);
+      margin-bottom: 10px;
+    }
+
+    .description{
+      max-height: 300px;
+    }
+  }
+}

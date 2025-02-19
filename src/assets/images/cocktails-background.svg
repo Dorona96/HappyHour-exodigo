@@ -1,0 +1,21 @@
+<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <pattern id="cocktail-pattern" width="60" height="60" patternUnits="userSpaceOnUse">
+      <!-- Cocktail Glass -->
+      <g transform="translate(10,10)" fill="none" stroke="#f28e1c" stroke-width="2">
+        <path d="M10 10 L20 30 L30 10 Z" /> <!-- Glass -->
+        <line x1="20" y1="30" x2="20" y2="45" stroke="#f28e1c" stroke-width="2"/> <!-- Stick -->
+        <circle cx="20" cy="5" r="5" fill="#ff4757"/> <!-- Olive -->
+      </g>
+
+      <!-- Martini Glass -->
+      <g transform="translate(30,30)" fill="none" stroke="#ff4757" stroke-width="2">
+        <path d="M10 10 L20 30 L30 10 Z" /> <!-- Glass -->
+        <line x1="20" y1="30" x2="20" y2="45" stroke="#ff4757" stroke-width="2"/> <!-- Stick -->
+        <circle cx="15" cy="5" r="4" fill="#f28e1c"/> <!-- Orange Slice -->
+      </g>
+    </pattern>
+  </defs>
+
+  <rect width="100%" height="100%" fill="url(#cocktail-pattern)"/>
+</svg>

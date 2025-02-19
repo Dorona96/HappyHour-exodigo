@@ -4,17 +4,24 @@ import CocktailCard from "../CocktailCard/CocktailCard";
 import styles from "./CocktailList.module.scss";
 import { Link } from "react-router-dom";
 
-
 interface CocktailListProps {
   cocktails: Cocktail[];
 }
+
 const CocktailList: React.FC<CocktailListProps> = ({ cocktails }) => {
-  
   return (
     <div className={styles.cocktailList}>
-      {cocktails.map((cocktail, index) => {
-        return <Link key={index} to={`/cocktail/${cocktail.idDrink}`}><CocktailCard key={cocktail.idDrink} cocktail={cocktail} /></Link>;
-      })}
+      {cocktails.map((cocktail) => (
+        <Link
+          key={cocktail.idDrink}
+          to={`/cocktail/${cocktail.idDrink}`}
+          onClick={(e) => {
+            sessionStorage.setItem("scrollPosition", window.scrollY.toString()); 
+          }}
+        >
+          <CocktailCard cocktail={cocktail} />
+        </Link>
+      ))}
     </div>
   );
 };

@@ -1,24 +1,21 @@
 @use "../../styles/abstracts/variables" as *;
 
-nav {
+.navbar {
   width: 100%;
-  display: flex;
+  max-height: 55px;
+  flex-grow: 1;
   top: 0;
-  justify-content: center;
   position: sticky;
-  backdrop-filter: blur(30px);
-  padding: 24px;
+  backdrop-filter: blur(20px);
+  padding: 16px 24px;
   z-index: 100;
   box-sizing: border-box;
-}
-.navbar {
-  display: flex;
   justify-content: space-between;
-  width: 100%;
+  display: flex;
   max-width: 1500px;
 
   span {
-    color: $berry;
+    color: $lime;
     font-weight: 500;
   }
   img {
@@ -30,5 +27,8 @@ nav {
   .actionBtns {
     display: flex;
     gap: 8px;
+    
+    a :hover{
+    }
   }
 }

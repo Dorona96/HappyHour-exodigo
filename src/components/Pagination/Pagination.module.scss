@@ -1,0 +1,46 @@
+@use "styles/abstracts/variables" as *;
+.ellipsis {
+  padding: 8px;
+  font-size: 16px;
+  color: #888;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin: 20px 0;
+  flex-wrap: wrap;
+
+  button {
+    border: none;
+    border-radius: 5px;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    min-width: 40px;
+
+    background-color: $lime;
+    &:hover {
+      background-color: darken($lime, 10%);
+      color: white;
+      border-color: $lime;
+    }
+
+    &:disabled {
+      background-color: $dark-grey;
+      color: $light-grey;
+      border-color: $light-grey;
+      cursor: default;
+    }
+  }
+
+  @media (max-width: 600px) {
+    gap: 4px;
+    button {
+      padding: 6px 10px;
+      font-size: 14px;
+    }
+  }
+}

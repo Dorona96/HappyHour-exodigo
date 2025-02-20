@@ -1,57 +1,20 @@
-import React, { useReducer, useCallback, useMemo } from "react";
+import React, { useReducer, useCallback, useEffect } from "react";
 import { Cocktail } from "types/cocktail";
 import styles from "./DrinkForm.module.scss";
 import { useImageUpload } from "hooks/useImageUpload";
-import { saveDrinkToLocalStorage } from "utils/storage";
+import { loadFromLocalStorage, saveDrinkToLocalStorage } from "utils/storage";
 import { imageToBase64 } from "utils/imageUtils";
+import { formReducer, initialState } from "reducers/drinkFormReducer";
 
-
-type FormAction =
-  | { type: "SET_NAME"; payload: string }
-  | { type: "SET_INGREDIENT"; payload: { index: number; value: string } }
-  | { type: "ADD_INGREDIENT" }
-  | { type: "REMOVE_INGREDIENT"; payload: number }
-  | { type: "SET_INSTRUCTIONS"; payload: string }
-  | { type: "RESET_FORM" };
-
-
-const initialState = {
-  name: "",
-  ingredients: [""],
-  instructions: "",
-};
-
-const formReducer = (state: typeof initialState, action: FormAction) => {
-  switch (action.type) {
-    case "SET_NAME":
-      return { ...state, name: action.payload };
-    case "SET_INGREDIENT":
-      return {
-        ...state,
-        ingredients: state.ingredients.map((ing, index) =>
-          index === action.payload.index ? action.payload.value : ing
-        ),
-      };
-    case "ADD_INGREDIENT":
-      return { ...state, ingredients: [...state.ingredients, ""] };
-    case "REMOVE_INGREDIENT":
-      return {
-        ...state,
-        ingredients: state.ingredients.filter((_, index) => index !== action.payload),
-      };
-    case "SET_INSTRUCTIONS":
-      return { ...state, instructions: action.payload };
-    case "RESET_FORM":
-      return initialState;
-    default:
-      return state;
-  }
-};
-
+const FORM_STORAGE_KEY = "drinkFormState";
 const DrinkForm: React.FC = () => {
-  const [state, dispatch] = useReducer(formReducer, initialState);
+  const [state, dispatch] = useReducer(formReducer, loadFromLocalStorage(FORM_STORAGE_KEY , initialState));
   const { image, preview, handleImageChange, resetImage } = useImageUpload();
   const [error, setError] = React.useState<string | null>(null);
+
+  useEffect(() => {
+    localStorage.setItem(FORM_STORAGE_KEY, JSON.stringify(state));
+  }, [state]);
 
   const validateForm = useCallback(() => {
     if (!state.name.trim() || state.ingredients.some((i) => !i.trim()) || !state.instructions.trim() || !image) {
@@ -88,7 +51,7 @@ const DrinkForm: React.FC = () => {
     <form className={styles.form} onSubmit={handleSaveDrink}>
       <h2>Add a New Cocktail</h2>
 
-      {error && <span className={styles.error} aria-live="polite">{error}</span>}
+      {error && <span className={styles.error}>{error}</span>}
 
       <label htmlFor="name">Drink Name</label>
       <input

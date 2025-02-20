@@ -1,34 +1,24 @@
-import React, { useReducer, useCallback, useEffect } from "react";
+import React, { useCallback } from "react";
 import { Cocktail } from "types/cocktail";
 import styles from "./DrinkForm.module.scss";
 import { useImageUpload } from "hooks/useImageUpload";
-import { loadFromLocalStorage, saveDrinkToLocalStorage } from "utils/storage";
+import { saveDrinkToLocalStorage } from "utils/storage";
 import { imageToBase64 } from "utils/imageUtils";
-import { formReducer, initialState } from "reducers/drinkFormReducer";
-
-const FORM_STORAGE_KEY = "drinkFormState";
+import { useDrinkForm } from "hooks/useDrinkForm";
 const DrinkForm: React.FC = () => {
-  const [state, dispatch] = useReducer(
-    formReducer,
-    loadFromLocalStorage(FORM_STORAGE_KEY, initialState)
-  );
+  const {
+    state,
+    error,
+    setError,
+    setName,
+    setInstructions,
+    addIngredient,
+    removeIngredient,
+    updateIngredient,
+    resetForm,
+  } = useDrinkForm();
+
   const { image, preview, handleImageChange, resetImage } = useImageUpload();
-  const [error, setError] = React.useState<string | null>(null);
-
-  const setName = (name: string) =>
-    dispatch({ type: "SET_NAME", payload: name });
-  const setInstructions = (instructions: string) =>
-    dispatch({ type: "SET_INSTRUCTIONS", payload: instructions });
-  const addIngredient = () => dispatch({ type: "ADD_INGREDIENT" });
-  const removeIngredient = (index: number) =>
-    dispatch({ type: "REMOVE_INGREDIENT", payload: index });
-  const updateIngredient = (index: number, value: string) =>
-    dispatch({ type: "SET_INGREDIENT", payload: { index, value } });
-  const resetForm = () => dispatch({ type: "RESET_FORM" });
-
-  useEffect(() => {
-    localStorage.setItem(FORM_STORAGE_KEY, JSON.stringify(state));
-  }, [state]);
 
   const validateForm = useCallback(() => {
     if (
@@ -61,7 +51,7 @@ const DrinkForm: React.FC = () => {
     };
 
     saveDrinkToLocalStorage(newDrink);
-    dispatch({ type: "RESET_FORM" });
+    resetForm();
     resetImage();
     setError(null);
   };
@@ -69,9 +59,8 @@ const DrinkForm: React.FC = () => {
   return (
     <form className={styles.form} onSubmit={handleSaveDrink}>
       <h2>Add a New Cocktail</h2>
-
+      
       {error && <span className={styles.error}>{error}</span>}
-
       <label htmlFor="name">Drink Name</label>
       <input
         id="name"

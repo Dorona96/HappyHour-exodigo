@@ -8,16 +8,35 @@ import { formReducer, initialState } from "reducers/drinkFormReducer";
 
 const FORM_STORAGE_KEY = "drinkFormState";
 const DrinkForm: React.FC = () => {
-  const [state, dispatch] = useReducer(formReducer, loadFromLocalStorage(FORM_STORAGE_KEY , initialState));
+  const [state, dispatch] = useReducer(
+    formReducer,
+    loadFromLocalStorage(FORM_STORAGE_KEY, initialState)
+  );
   const { image, preview, handleImageChange, resetImage } = useImageUpload();
   const [error, setError] = React.useState<string | null>(null);
+
+  const setName = (name: string) =>
+    dispatch({ type: "SET_NAME", payload: name });
+  const setInstructions = (instructions: string) =>
+    dispatch({ type: "SET_INSTRUCTIONS", payload: instructions });
+  const addIngredient = () => dispatch({ type: "ADD_INGREDIENT" });
+  const removeIngredient = (index: number) =>
+    dispatch({ type: "REMOVE_INGREDIENT", payload: index });
+  const updateIngredient = (index: number, value: string) =>
+    dispatch({ type: "SET_INGREDIENT", payload: { index, value } });
+  const resetForm = () => dispatch({ type: "RESET_FORM" });
 
   useEffect(() => {
     localStorage.setItem(FORM_STORAGE_KEY, JSON.stringify(state));
   }, [state]);
 
   const validateForm = useCallback(() => {
-    if (!state.name.trim() || state.ingredients.some((i) => !i.trim()) || !state.instructions.trim() || !image) {
+    if (
+      !state.name.trim() ||
+      state.ingredients.some((i) => !i.trim()) ||
+      !state.instructions.trim() ||
+      !image
+    ) {
       return "Please fill in all required fields and upload an image.";
     }
     return null;
@@ -58,7 +77,7 @@ const DrinkForm: React.FC = () => {
         id="name"
         placeholder="Enter cocktail name"
         value={state.name}
-        onChange={(e) => dispatch({ type: "SET_NAME", payload: e.target.value })}
+        onChange={(e) => setName(e.target.value)}
       />
 
       <label>Ingredients</label>
@@ -68,16 +87,20 @@ const DrinkForm: React.FC = () => {
             type="text"
             value={ingredient}
             placeholder="Ingredient"
-            onChange={(e) => dispatch({ type: "SET_INGREDIENT", payload: { index, value: e.target.value } })}
+            onChange={(e) => updateIngredient(index, e.target.value)}
           />
           {state.ingredients.length > 1 && (
-            <button type="button" className={styles.deleteBtn} onClick={() => dispatch({ type: "REMOVE_INGREDIENT", payload: index })}>
+            <button
+              type="button"
+              className={styles.deleteBtn}
+              onClick={() => removeIngredient(index)}
+            >
               ✖
             </button>
           )}
         </div>
       ))}
-      <button type="button" className={styles.addBtn} onClick={() => dispatch({ type: "ADD_INGREDIENT" })}>
+      <button type="button" className={styles.addBtn} onClick={addIngredient}>
         + Add Ingredient
       </button>
 
@@ -86,16 +109,27 @@ const DrinkForm: React.FC = () => {
         id="instructions"
         placeholder="How to prepare the cocktail"
         value={state.instructions}
-        onChange={(e) => dispatch({ type: "SET_INSTRUCTIONS", payload: e.target.value })}
+        onChange={(e) => setInstructions(e.target.value)}
       />
 
       <label htmlFor="imageUpload">Upload Image</label>
-      <input id="imageUpload" type="file" accept="image/*" onChange={handleImageChange} />
+      <input
+        id="imageUpload"
+        type="file"
+        accept="image/*"
+        onChange={handleImageChange}
+      />
 
-      {preview && <img src={preview} alt="Cocktail Preview" className={styles.imagePreview} />}
+      {preview && (
+        <img
+          src={preview}
+          alt="Cocktail Preview"
+          className={styles.imagePreview}
+        />
+      )}
 
       <div className={styles.btnsAction}>
-        <button type="reset" className={styles.resetBtn} onClick={() => dispatch({ type: "RESET_FORM" })}>
+        <button type="reset" className={styles.resetBtn} onClick={resetForm}>
           Reset
         </button>
         <button type="submit" className={styles.submitBtn}>

@@ -119,7 +119,8 @@
       }
     }
 
-    .submitBtn {
+    .submitBtn,
+    .backBtn {
       background: $blue;
       color: white;
       border: none;
@@ -131,6 +132,11 @@
       &:hover {
         background: darken($blue, 10%);
       }
+    }
+
+    .backBtn {
+      background-color: $blue;
+      color: black;
     }
   }
 }

@@ -8,10 +8,6 @@
   height: 300px;
   cursor: pointer;
   overflow: hidden;
-  @include mobile {
-    width: calc(50% - 4px);
-    height: calc(50vw - 4px);
-  }
 
   img {
     width: 100%;

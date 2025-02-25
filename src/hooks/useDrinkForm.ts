@@ -10,6 +10,7 @@ export const useDrinkForm = () => {
     formReducer,
     loadFromLocalStorage(FORM_STORAGE_KEY, initialState)
   );
+  
   const [error, setError] = useState<string | null>(null);
   const debouncedState = useDebounce(state, 500);
   useEffect(() => {

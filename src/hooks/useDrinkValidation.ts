@@ -1,8 +1,9 @@
 import { useCallback } from "react";
+import { Cocktail } from "types/cocktail";
 
-export const useDrinkValidation = (state: any, image: File | null) => {
+export const useDrinkValidation = (state: Cocktail, image: File | null) => {
   return useCallback(() => {
-    if (!state.name.trim() || state.ingredients.some((i: string) => !i.trim()) || !state.instructions.trim() || !image) {
+    if (!state.strDrink.trim() || state.strIngredients.some((i: string) => !i.trim()) || !state.strInstructions.trim() || !image) {
       return "Please fill in all required fields and upload an image.";
     }
     return null;

@@ -12,7 +12,7 @@ const Pagination: React.FC<PaginationProps> = ({
   onPageChange,
 }) => {
   const generatePageNumbers = () => {
-    const maxPagesToShow = 5; // מספר מקסימלי של דפים שנציג
+    const maxPagesToShow = 5;
     const pages: (number | string)[] = [];
 
     if (totalPages <= maxPagesToShow) {

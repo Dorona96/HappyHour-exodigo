@@ -1,10 +1,11 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import { Cocktail } from "types/cocktail";
 import styles from "./DrinkForm.module.scss";
 import { useImageUpload } from "hooks/useImageUpload";
 import { saveDrinkToLocalStorage } from "utils/storage";
 import { imageToBase64 } from "utils/imageUtils";
 import { useDrinkForm } from "hooks/useDrinkForm";
+import { Link } from "react-router-dom";
 const DrinkForm: React.FC = () => {
   const {
     state,
@@ -17,28 +18,11 @@ const DrinkForm: React.FC = () => {
     updateIngredient,
     resetForm,
   } = useDrinkForm();
-
+  const [isPopup, setPopup] = useState(false);
   const { image, preview, handleImageChange, resetImage } = useImageUpload();
-
-  const validateForm = useCallback(() => {
-    if (
-      !state.name.trim() ||
-      state.ingredients.some((i) => !i.trim()) ||
-      !state.instructions.trim() ||
-      !image
-    ) {
-      return "Please fill in all required fields and upload an image.";
-    }
-    return null;
-  }, [state, image]);
 
   const handleSaveDrink = async (e: React.FormEvent) => {
     e.preventDefault();
-    const validationError = validateForm();
-    if (validationError) {
-      setError(validationError);
-      return;
-    }
 
     const base64Image = image ? await imageToBase64(image) : "";
 
@@ -51,19 +35,57 @@ const DrinkForm: React.FC = () => {
     };
 
     saveDrinkToLocalStorage(newDrink);
+    setPopup(true);
+  };
+
+  const handleResetForm = () => {
     resetForm();
     resetImage();
     setError(null);
   };
 
+  if (isPopup)
+    return (
+      <div className={styles.form}>
+        <h2>Your Drink was Added!</h2>
+        {preview && (
+          <img
+            src={preview}
+            alt="Cocktail Preview"
+            className={styles.imagePreview}
+          />
+        )}
+        <div className={styles.btnsAction}>
+          <Link className={styles.backBtn} to="/">
+            back ro feed
+          </Link>
+          <button
+            className={styles.resetBtn}
+            onClick={() => {
+              setPopup(false);
+              handleResetForm();
+            }}
+          >
+            add more
+          </button>
+        </div>
+      </div>
+    );
+
   return (
-    <form className={styles.form} onSubmit={handleSaveDrink}>
+    <form
+      className={styles.form}
+      onSubmit={handleSaveDrink}
+      onReset={handleResetForm}
+    >
       <h2>Add a New Cocktail</h2>
-      
+
       {error && <span className={styles.error}>{error}</span>}
       <label htmlFor="name">Drink Name</label>
       <input
         id="name"
+        required
+        type="text"
         placeholder="Enter cocktail name"
         value={state.name}
         onChange={(e) => setName(e.target.value)}
@@ -76,6 +98,7 @@ const DrinkForm: React.FC = () => {
             type="text"
             value={ingredient}
             placeholder="Ingredient"
+            required
             onChange={(e) => updateIngredient(index, e.target.value)}
           />
           {state.ingredients.length > 1 && (
@@ -95,6 +118,7 @@ const DrinkForm: React.FC = () => {
 
       <label htmlFor="instructions">Instructions</label>
       <textarea
+        required
         id="instructions"
         placeholder="How to prepare the cocktail"
         value={state.instructions}
@@ -103,6 +127,7 @@ const DrinkForm: React.FC = () => {
 
       <label htmlFor="imageUpload">Upload Image</label>
       <input
+        required
         id="imageUpload"
         type="file"
         accept="image/*"
@@ -118,7 +143,7 @@ const DrinkForm: React.FC = () => {
       )}
 
       <div className={styles.btnsAction}>
-        <button type="reset" className={styles.resetBtn} onClick={resetForm}>
+        <button type="reset" className={styles.resetBtn}>
           Reset
         </button>
         <button type="submit" className={styles.submitBtn}>

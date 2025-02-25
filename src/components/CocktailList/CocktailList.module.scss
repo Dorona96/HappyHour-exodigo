@@ -1,9 +1,15 @@
-.cocktailList {
+.cocktailGrid {
   display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
   justify-content: center;
-  max-width: 1500px;
-  padding: 0 10px;
-  flex-grow: 1;
+  align-items: center;
+  margin: auto;
+  scrollbar-width: none;
+}
+
+
+.cocktailItem {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5px;
 }

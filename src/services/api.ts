@@ -1,7 +1,6 @@
 import axios from "axios";
 import { Cocktail } from "types/cocktail";
 
-// const BASE_URL = "https://www.thecocktaildb.com/api/json/v1/1";
 const BASE_URL = "http://localhost:5000/api";
 
 export const fetchCocktailsByLetter = async (letter: string): Promise<Cocktail[]> => {
@@ -34,10 +33,30 @@ export const fetchCocktailById = async (
   id: string
 ): Promise<Cocktail | null> => {
   try {
-    const response = await axios.get<{ drinks: Cocktail[] }>(
+    const response = await axios.get<{ drinks: any[] }>(
       `${BASE_URL}/cocktail?i=${id}`
     );
-    return response.data.drinks ? response.data.drinks[0] : null;
+
+    if (!response.data.drinks) return null;
+
+    const rawCocktail = response.data.drinks[0];
+
+    const ingredients = [];
+    for (let i = 1; i <= 15; i++) {
+      const ingredient = rawCocktail[`strIngredient${i}`];
+      if (ingredient) {
+        ingredients.push(ingredient);
+      }
+    }
+
+    return {
+      idDrink: rawCocktail.idDrink,
+      strDrink: rawCocktail.strDrink,
+      strDrinkThumb: rawCocktail.strDrinkThumb,
+      strInstructions: rawCocktail.strInstructions || "No instructions available.",
+      strIngredients: ingredients,
+    };
+
   } catch (error) {
     console.error(`error fetching cocktail with id ${id}`, error);
     throw error;
